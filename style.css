@@ -6,3 +6,7 @@ a {
     text-decoration: none;
     display: block;
 } 
+.score {
+    margin-left: 30px;
+    text-decoration: bold;
+}

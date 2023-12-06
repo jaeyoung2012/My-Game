@@ -4,8 +4,7 @@ let speed;
 let isMoving = false;
 let keyCode = null;
 
-screen.width = window.innerWidth - 50;
-screen.height = window.innerHeight -50;
+
 
 
 
@@ -37,9 +36,11 @@ let score = 0
 
 function Frame() {
     animation = requestAnimationFrame(Frame);
+    screen.width = window.innerWidth - 50;
+    screen.height = window.innerHeight -50;
     timer++
     if (timer % 5 == 0 || timer == 1) {
-        document.querySelector(".score").innerText = score
+        document.querySelector(".score").innerText = `Score : ${score}`
     }
     
     // 캔버스 
