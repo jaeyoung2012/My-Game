@@ -13,7 +13,7 @@
     <a href="/index.html">게임 설명으로</a>
     <a href="/game.html">리플레이</a>
     <script>
-        document.querySelector("#bestscore").innerText = `Best Score : ${localStorage.getItem("bestscore")}`
+        document.querySelector("#bestscore").innerText = `Best Score : ${localStorage.getItem("bestscore") ?? 0}`
     </script>
 </body>
 </html>
