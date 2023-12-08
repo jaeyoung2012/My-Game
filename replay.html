@@ -9,11 +9,19 @@
 <body>
     <h1 id="title">You DIED!</h1>
     <p>ㅋㅋ</p>
+    <div id="score"></div>
     <div id="bestscore"></div>
+    
     <a href="/index.html">게임 설명으로</a>
     <a href="/game.html">리플레이</a>
     <script>
-        document.querySelector("#bestscore").innerText = `Best Score : ${localStorage.getItem("bestscore") ?? 0}`
+        if(localStorage.getItem("bestscore")===null) {
+            localStorage.setItem("bestscore",0)
+        } else if (localStorage.getItem("score")===null) {
+            localStorage.setItem("score",0)
+        }
+        document.querySelector("#bestscore").innerText = `Best Score : ${localStorage.getItem("bestscore")}`
+        document.getElementById("score").innerText = `Score : ${localStorage.getItem("score")}`
     </script>
 </body>
 </html>

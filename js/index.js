@@ -127,6 +127,7 @@ function collide(a,b) {
         if (localStorage.getItem("bestscore") < score) {
             localStorage.setItem("bestscore",score)
         }
+        localStorage.setItem("score",score)
         location.replace("replay.html")
     }
 }
