@@ -25,7 +25,7 @@ let useItem = false;
 let itemTimer = 0;
 let itemTime = 0;
 let score = 0;
-let plusItemTime = 300;
+let plusItemTime = 400;
 
 function Frame() {
     animation = requestAnimationFrame(Frame);
@@ -36,8 +36,8 @@ function Frame() {
         document.querySelector(".score").innerText = `Score : ${score}`
     }
     if (score % 50 === 0) {
-        maxEm += 2
-        plusItemTime += 10
+        maxEm = maxEm + score % 25;
+        plusItemTime = plusItemTime + score % 5;
     }
     
     // 캔버스 
@@ -119,6 +119,7 @@ function collide(a,b) {
             score++
             return;
         }
+        
         cancelAnimationFrame(animation)
         ctx.clearRect(0,0,screen.width,screen.height)
         if (localStorage.getItem("bestscore") < score) {
