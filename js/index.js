@@ -11,13 +11,15 @@ let player = {
     color :"green",
     speed : 2,
     draw() {
-        ctx.fillStyle = this.color
+        ctx.fillStyle = this.color;
+        ctx.lineWidth = 3;
         ctx.fillRect(this.x,this.y,this.w,this.h);
+        ctx.strokeRect(this.x,this.y,this.w,this.h);
     }
 };
 
 let ems = [];
-let maxEm = 10;
+let maxEm = 15;
 let timer = 0;
 let animation;
 let items = [];

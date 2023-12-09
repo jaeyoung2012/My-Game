@@ -10,7 +10,9 @@ class Entity {
     }
     draw() {
         ctx.fillStyle = this.color;
+        ctx.lineWidth = 3;
         ctx.fillRect(this.x,this.y,this.w,this.h);
+        ctx.strokeRect(this.x,this.y,this.w,this.h);
     }
     move() {
         
@@ -37,7 +39,9 @@ class Item {
     }
     draw() {
         ctx.fillStyle = this.color;
+        ctx.lineWidth = 3;
         ctx.fillRect(this.x,this.y,this.w,this.h);
+        ctx.strokeRect(this.x,this.y,this.w,this.h);
     }
     
 }
