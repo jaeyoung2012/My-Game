@@ -25,7 +25,7 @@ let useItem = false;
 let itemTimer = 0;
 let itemTime = 0;
 let score = 0;
-let plusItemTime = 400;
+let plusItemTime = 300;
 
 function Frame() {
     animation = requestAnimationFrame(Frame);
@@ -37,7 +37,7 @@ function Frame() {
     }
     if (score % 50 === 0) {
         maxEm += 2
-        plusItemTime += 50
+        plusItemTime += 10
     }
     
     // 캔버스 
