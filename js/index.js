@@ -107,7 +107,7 @@ function Frame() {
         itemTime = 0;
         player.color = 'green';
     }
-    console.log(itemTimer)
+    
 }
 Frame();
 
