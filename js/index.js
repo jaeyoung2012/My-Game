@@ -3,14 +3,6 @@ let ctx = screen.getContext("2d");
 let speed;
 let isMoving = false;
 let keyCode = null;
-
-
-
-
-
-
-
-
 let player = {
     x : 100,
     y : 100,
@@ -22,7 +14,7 @@ let player = {
         ctx.fillStyle = this.color
         ctx.fillRect(this.x,this.y,this.w,this.h);
     }
-}
+};
 
 let ems = [];
 let maxEm = 10;
@@ -32,7 +24,8 @@ let items = [];
 let useItem = false;
 let itemTimer = 0;
 let itemTime = 0;
-let score = 0
+let score = 0;
+let plusItemTime = 400;
 
 function Frame() {
     animation = requestAnimationFrame(Frame);
@@ -41,6 +34,10 @@ function Frame() {
     timer++
     if (timer % 5 == 0 || timer == 1) {
         document.querySelector(".score").innerText = `Score : ${score}`
+    }
+    if (score % 50 === 0) {
+        maxEm += 2
+        plusItemTime += 50
     }
     
     // 캔버스 
@@ -141,7 +138,7 @@ function collide2(a,b) {
         items.splice(items.indexOf(a),1)
         
         
-        itemTime += 400
-        score += 5
+        itemTime += plusItemTime;
+        score += 5;
     }
 }
