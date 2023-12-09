@@ -13,8 +13,8 @@ let player = {
     draw() {
         ctx.fillStyle = this.color;
         ctx.lineWidth = 3;
-        ctx.fillRect(this.x,this.y,this.w,this.h);
-        ctx.strokeRect(this.x,this.y,this.w,this.h);
+        ctx.fillRect(this.x,this.y,this.w-3,this.h-3);
+        ctx.strokeRect(this.x,this.y,this.w-3,this.h-3);
     }
 };
 
@@ -41,7 +41,10 @@ function Frame() {
         maxEm = maxEm + score % 25;
         plusItemTime = plusItemTime + score % 5;
     }
-    
+    if (! (player.x + player.w < screen.width)) {
+        player.x = screen.width -player.w
+    }
+   
     // 캔버스 
     ctx.clearRect(0,0,screen.width, screen.height);
     
@@ -51,13 +54,13 @@ function Frame() {
                 if (player.y > 0) player.y -= player.speed;
                 break;
             case "KeyS":
-                if (player.y < screen.height) player.y += player.speed;
+                if (player.y + player.h < screen.height) player.y += player.speed;
                 break;
             case "KeyA":
                 if (player.x > 0) player.x -= player.speed;
                 break;
             case "KeyD":
-                if (player.x < screen.width) player.x += player.speed;
+                if (player.x + player.w < screen.width) player.x += player.speed;
                 break;
             default:
                 
