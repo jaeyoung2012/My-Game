@@ -15,22 +15,25 @@ let score = 0;
 let plusItemTime = 200;
 let playerImg = new Image();
 playerImg.src = "img/player.png"
-
+let playerDieImage = new Image()
+playerDieImage.src = "img/playerDie.png";
+let end = false;
 
 let player = {
     x : 100,
     y : 100,
     w : 70,
     h : 70,
+    img : playerImg,
     superMode : false,
     color :"green",
     speed : 2,
     draw() {
-        ctx.drawImage(playerImg,this.x,this.y,this.w,this.h);
+        ctx.drawImage(this.img,this.x,this.y,this.w,this.h);
         if (this.superMode) {
             ctx.strokeStyle = "gold"
             ctx.lineWidth = 4;
-            ctx.strokeRect(this.x,this.y,this.w+5,this.h+5)
+            ctx.strokeRect(this.x-1,this.y-1,this.w+2,this.h+2)
         }
     }
 };
@@ -56,8 +59,8 @@ function Frame() {
     // 캔버스 
     ctx.clearRect(0,0,screen.width, screen.height);
     player.superMode = useItem;
-
-    switch (keyCode) {
+    if (!end) {
+        switch (keyCode) {
             case "KeyW":
                 if (player.y > 0) player.y -= player.speed;
                 break;
@@ -74,6 +77,8 @@ function Frame() {
                 
                 break;
         }
+    }
+    
         player.draw()
     
 
@@ -107,6 +112,25 @@ function Frame() {
         collide(a,player)
         a.draw()
     })
+
+    if (end) {
+        player.img = playerDieImage;
+        player.y++
+        document.querySelector("audio").pause()
+        
+        setTimeout(()=>{
+            location.replace("replay.html")
+            cancelAnimationFrame(animation)
+            ctx.clearRect(0,0,screen.width,screen.height);
+            
+            
+            if (localStorage.getItem("bestscore") < score) {
+                localStorage.setItem("bestscore",score)
+            }
+            
+            localStorage.setItem("score",score)},3000)
+       
+    }
     
     
     if (useItem && itemTimer < itemTime) {
@@ -133,15 +157,8 @@ function collide(a,b) {
             score++
             return;
         }
+        end = true;
         
-        cancelAnimationFrame(animation)
-        ctx.clearRect(0,0,screen.width,screen.height)
-        if (localStorage.getItem("bestscore") < score) {
-            localStorage.setItem("bestscore",score)
-        }
-        localStorage.setItem("score",score)
-        setTimeout(()=>{location.replace("replay.html")},1000)
-        document.querySelector("audio").pause()
         
     }
 }
