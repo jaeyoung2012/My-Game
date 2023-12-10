@@ -27,7 +27,8 @@ let useItem = false;
 let itemTimer = 0;
 let itemTime = 0;
 let score = 0;
-let plusItemTime = 400;
+let plusItemTime = 350;
+let items2 = [];
 
 function Frame() {
     animation = requestAnimationFrame(Frame);
@@ -76,10 +77,10 @@ function Frame() {
         })
         
     }
-    if (timer % 100 == 0) {
+    if (timer % 75 == 0) {
         let newX = Math.floor(Math.random()*(screen.width - 201)+1);
         let newY = Math.floor(Math.random()*(screen.width - 201)+1);
-        let newW = Math.floor(Math.random()*20+30)
+        let newW = Math.floor(Math.random()*60+30)
         if (ems.length == maxEm) ems.shift()
         ems.push(new Entity(newX,newY,newW,newW));
     }
@@ -90,6 +91,13 @@ function Frame() {
         
         items.push(new Item(newX,newY,50,50));
     }
+    if (timer % 700 == 0 || timer == 0) {
+        let newX = Math.floor(Math.random()*(screen.width - 201)+1);
+        let newY = Math.floor(Math.random()*(screen.height -201)+1);
+        
+        
+        items2.push(new BigItem(newX,newY,50,50));
+    }
 
     items.map((a)=>{
         collide2(a,player)
@@ -97,6 +105,10 @@ function Frame() {
     })
     ems.map((a)=>{
         collide(a,player)
+        a.draw()
+    })
+    items2.map((a)=>{
+        collide3(a,player);
         a.draw()
     })
     
@@ -119,7 +131,7 @@ function collide(a,b) {
     var y축차이1 = a.y - (b.y + b.h)
     var y축차이2 = b.y - (a.y + a.h)
     if (x축차이1 < 0 && x축차이2 < 0 && y축차이1 < 0 && y축차이2 < 0) {
-        if (useItem) {
+        if (useItem || b.w > a.w) {
             ems.splice(ems.indexOf(a),1);
             score++
             return;
@@ -146,5 +158,17 @@ function collide2(a,b) {
         
         itemTime += plusItemTime;
         score += 5;
+    }
+}
+function collide3(a,b) {
+    var x축차이1 = a.x - (b.x + b.w)
+    var x축차이2 = b.x - (a.x + a.w)
+    var y축차이1 = a.y - (b.y + b.h)
+    var y축차이2 = b.y - (a.y + a.h)
+    if (x축차이1 < 0 && x축차이2 < 0 && y축차이1 < 0 && y축차이2 < 0) {
+        items2.splice(items.indexOf(a),1)
+        score += 10
+        player.w += 5
+        player.h += 5
     }
 }
