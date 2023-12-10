@@ -90,15 +90,15 @@ function Frame() {
         
     }
     if (timer % 75 == 0) {
-        let newX = Math.floor(Math.random()*(screen.width - 201)+1);
-        let newY = Math.floor(Math.random()*(screen.width - 201)+1);
+        let newX = Math.floor(Math.random()*(screen.width - 401)+1);
+        let newY = Math.floor(Math.random()*(screen.width - 401)+1);
         let newW = Math.floor(Math.random()*player.w+30)
         if (ems.length == maxEm) ems.shift()
         ems.push(new Entity(newX,newY,newW,newW));
     }
     if (timer % 500 == 0) {
-        let newX = Math.floor(Math.random()*(screen.width - 201)+1);
-        let newY = Math.floor(Math.random()*(screen.height -201)+1);
+        let newX = Math.floor(Math.random()*(screen.width - 401)+1);
+        let newY = Math.floor(Math.random()*(screen.height -401)+1);
         
         
         items.push(new Item(newX,newY,50,50));
