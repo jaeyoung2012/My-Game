@@ -18,6 +18,7 @@ playerImg.src = "img/player.png"
 let playerDieImage = new Image()
 playerDieImage.src = "img/playerDie.png";
 let end = false;
+let endtimer = 0
 
 let player = {
     x : 100,
@@ -117,8 +118,8 @@ function Frame() {
         player.img = playerDieImage;
         player.y++
         document.querySelector("audio").pause()
-        
-        setTimeout(()=>{
+        endtimer++
+        if (endtimer > 1000) {
             location.replace("replay.html")
             cancelAnimationFrame(animation)
             ctx.clearRect(0,0,screen.width,screen.height);
@@ -128,7 +129,8 @@ function Frame() {
                 localStorage.setItem("bestscore",score)
             }
             
-            localStorage.setItem("score",score)},3000)
+            localStorage.setItem("score",score)
+        }
        
     }
     
