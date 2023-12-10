@@ -80,7 +80,7 @@ function Frame() {
     if (timer % 75 == 0) {
         let newX = Math.floor(Math.random()*(screen.width - 201)+1);
         let newY = Math.floor(Math.random()*(screen.width - 201)+1);
-        let newW = Math.floor(Math.random()*60+30)
+        let newW = Math.floor(Math.random()*player.w+30)
         if (ems.length == maxEm) ems.shift()
         ems.push(new Entity(newX,newY,newW,newW));
     }
