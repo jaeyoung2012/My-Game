@@ -120,8 +120,9 @@ function Frame() {
         document.querySelector("audio").pause()
         endtimer++
         if (endtimer > 1000) {
-            location.replace("replay.html")
+            
             cancelAnimationFrame(animation)
+            location.replace("replay.html")
             ctx.clearRect(0,0,screen.width,screen.height);
             
             
