@@ -119,7 +119,7 @@ function Frame() {
         player.y++
         document.querySelector("audio").pause()
         endtimer++
-        if (endtimer > 1000) {
+        if (endtimer > 500) {
             
             cancelAnimationFrame(animation)
             location.replace("replay.html")
