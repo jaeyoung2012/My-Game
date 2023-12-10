@@ -3,21 +3,6 @@ let ctx = screen.getContext("2d");
 let speed;
 let isMoving = false;
 let keyCode = null;
-let player = {
-    x : 100,
-    y : 100,
-    w : 50,
-    h : 50,
-    color :"green",
-    speed : 2,
-    draw() {
-        ctx.fillStyle = this.color;
-        ctx.lineWidth = 3;
-        ctx.fillRect(this.x,this.y,this.w-3,this.h-3);
-        ctx.strokeRect(this.x,this.y,this.w-3,this.h-3);
-    }
-};
-
 let ems = [];
 let maxEm = 15;
 let timer = 0;
@@ -28,7 +13,29 @@ let itemTimer = 0;
 let itemTime = 0;
 let score = 0;
 let plusItemTime = 200;
-let items2 = [];
+let playerImg = new Image();
+playerImg.src = "img/player.png"
+
+
+let player = {
+    x : 100,
+    y : 100,
+    w : 70,
+    h : 70,
+    superMode : false,
+    color :"green",
+    speed : 2,
+    draw() {
+        ctx.drawImage(playerImg,this.x,this.y,this.w,this.h);
+        if (this.superMode) {
+            ctx.strokeStyle = "gold"
+            ctx.lineWidth = 4;
+            ctx.strokeRect(this.x,this.y,this.w+5,this.h+5)
+        }
+    }
+};
+
+
 
 function Frame() {
     animation = requestAnimationFrame(Frame);
@@ -48,7 +55,7 @@ function Frame() {
    
     // 캔버스 
     ctx.clearRect(0,0,screen.width, screen.height);
-    
+    player.superMode = useItem;
 
     switch (keyCode) {
             case "KeyW":
@@ -91,13 +98,6 @@ function Frame() {
         
         items.push(new Item(newX,newY,50,50));
     }
-    if (timer % 700 == 0 || timer == 0) {
-        let newX = Math.floor(Math.random()*(screen.width - 201)+1);
-        let newY = Math.floor(Math.random()*(screen.height -201)+1);
-        
-        
-        items2.push(new BigItem(newX,newY,50,50));
-    }
 
     items.map((a)=>{
         collide2(a,player)
@@ -107,10 +107,7 @@ function Frame() {
         collide(a,player)
         a.draw()
     })
-    items2.map((a)=>{
-        collide3(a,player);
-        a.draw()
-    })
+    
     
     if (useItem && itemTimer < itemTime) {
         player.color = "cyan"
@@ -131,10 +128,8 @@ function collide(a,b) {
     var y축차이1 = a.y - (b.y + b.h)
     var y축차이2 = b.y - (a.y + a.h)
     if (x축차이1 < 0 && x축차이2 < 0 && y축차이1 < 0 && y축차이2 < 0) {
-        if (useItem || b.w > a.w) {
+        if (useItem) {
             ems.splice(ems.indexOf(a),1);
-            player.w += 2
-            player.h += 2
             score++
             return;
         }
@@ -145,7 +140,9 @@ function collide(a,b) {
             localStorage.setItem("bestscore",score)
         }
         localStorage.setItem("score",score)
-        location.replace("replay.html")
+        setTimeout(()=>{location.replace("replay.html")},1000)
+        document.querySelector("audio").pause()
+        
     }
 }
 function collide2(a,b) {
@@ -160,17 +157,5 @@ function collide2(a,b) {
         
         itemTime += plusItemTime;
         score += 5;
-    }
-}
-function collide3(a,b) {
-    var x축차이1 = a.x - (b.x + b.w)
-    var x축차이2 = b.x - (a.x + a.w)
-    var y축차이1 = a.y - (b.y + b.h)
-    var y축차이2 = b.y - (a.y + a.h)
-    if (x축차이1 < 0 && x축차이2 < 0 && y축차이1 < 0 && y축차이2 < 0) {
-        items2.splice(items.indexOf(a),1)
-        score += 10
-        player.w += 5
-        player.h += 5
     }
 }

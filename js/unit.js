@@ -1,3 +1,8 @@
+let enemyImg = new Image();
+enemyImg.src = "img/angry.png"
+
+let appleImg = new Image();
+appleImg.src = "img/apple.png"
 class Entity {
     constructor(x,y,w,h) {
         this.x = x;
@@ -9,10 +14,7 @@ class Entity {
         
     }
     draw() {
-        ctx.fillStyle = this.color;
-        ctx.lineWidth = 3;
-        ctx.fillRect(this.x,this.y,this.w-3,this.h-3);
-        ctx.strokeRect(this.x,this.y,this.w-3,this.h-3);
+        ctx.drawImage(enemyImg,this.x,this.y,this.w,this.h)
     }
     move() {
         
@@ -34,29 +36,12 @@ class Item {
         this.y = y;
         this.w = w;
         this.h = h;
-        this.color = "blue"
+        
         
     }
     draw() {
-        ctx.fillStyle = this.color;
-        ctx.lineWidth = 3;
-        ctx.fillRect(this.x,this.y,this.w-3,this.h-3);
-        ctx.strokeRect(this.x,this.y,this.w-3,this.h-3);
+        
+        ctx.drawImage(appleImg,this.x,this.y,this.w,this.h);
     }
     
-}
-class BigItem {
-    constructor(x,y,w,h) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-        this.color = "yellow";
-    }
-    draw() {
-        ctx.fillStyle = this.color;
-        ctx.lineWidth = 3;
-        ctx.fillRect(this.x,this.y,this.w-3, this.h-3);
-        ctx.strokeRect(this.x,this.y,this.w-3,this.h-3);
-    }
 }
