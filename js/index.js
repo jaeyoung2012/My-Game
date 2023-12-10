@@ -27,7 +27,7 @@ let useItem = false;
 let itemTimer = 0;
 let itemTime = 0;
 let score = 0;
-let plusItemTime = 350;
+let plusItemTime = 200;
 let items2 = [];
 
 function Frame() {
@@ -133,6 +133,8 @@ function collide(a,b) {
     if (x축차이1 < 0 && x축차이2 < 0 && y축차이1 < 0 && y축차이2 < 0) {
         if (useItem || b.w > a.w) {
             ems.splice(ems.indexOf(a),1);
+            player.w += 5
+            player.h += 5
             score++
             return;
         }
