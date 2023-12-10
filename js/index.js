@@ -133,8 +133,8 @@ function collide(a,b) {
     if (x축차이1 < 0 && x축차이2 < 0 && y축차이1 < 0 && y축차이2 < 0) {
         if (useItem || b.w > a.w) {
             ems.splice(ems.indexOf(a),1);
-            player.w += 5
-            player.h += 5
+            player.w += 2
+            player.h += 2
             score++
             return;
         }
