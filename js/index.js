@@ -18,7 +18,8 @@ playerImg.src = "img/player.png"
 let playerDieImage = new Image()
 playerDieImage.src = "img/playerDie.png";
 let end = false;
-let endtimer = 0
+let endtimer = 0;
+let lasers = [undefined,undefined, undefined,undefined,undefined];
 
 let player = {
     x : 100,
@@ -28,7 +29,7 @@ let player = {
     img : playerImg,
     superMode : false,
     color :"green",
-    speed : 2,
+    speed : 4,
     draw() {
         ctx.drawImage(this.img,this.x,this.y,this.w,this.h);
         if (this.superMode) {
@@ -47,7 +48,11 @@ function Frame() {
     screen.height = window.innerHeight -50;
     timer++
     if (timer % 5 == 0 || timer == 1) {
+        
         document.querySelector(".score").innerText = `Score : ${score}`
+    }
+    if (timer % 35 == 0 && !end) {
+        score++
     }
     if (score % 50 === 0) {
         maxEm = maxEm + score % 25;
@@ -88,18 +93,36 @@ function Frame() {
         ems.map((a)=>{
             a.move()
         })
+    
+    }
+    if (timer % 50 == 0) {
+        if (Math.floor(Math.random()*2) == 0) {
+            let newY = Math.floor(Math.random()*(screen.width - 101)+1);
+            let newY2 = Math.floor(Math.random()*(screen.width - 101)+1);
+            let newOne = new Laser(0,newY,screen.width,newY2);
+            lasers.push(newOne)
+        }else {
+            let newX = Math.floor(Math.random()*(screen.width - 101)+1);
+            let newX2 = Math.floor(Math.random()*(screen.width - 101)+1);
+            let newOne = new Laser(newX,0,newX2,screen.height)
+            lasers.push(newOne)
+        }
+        if (lasers.length == 6) {
+            lasers.shift()
+        }
         
     }
-    if (timer % 75 == 0) {
-        let newX = Math.floor(Math.random()*(screen.width - 401)+1);
-        let newY = Math.floor(Math.random()*(screen.width - 401)+1);
+
+    if (timer % 60 == 0) {
+        let newX = Math.floor(Math.random()*(screen.width - 101)+1);
+        let newY = Math.floor(Math.random()*(screen.height - 101)+1);
         let newW = Math.floor(Math.random()*player.w+30)
         if (ems.length == maxEm) ems.shift()
         ems.push(new Entity(newX,newY,newW,newW));
     }
-    if (timer % 500 == 0) {
-        let newX = Math.floor(Math.random()*(screen.width - 401)+1);
-        let newY = Math.floor(Math.random()*(screen.height -401)+1);
+    if (timer % 500 == 0 || timer == 0) {
+        let newX = Math.floor(Math.random()*(screen.width - 101)+1);
+        let newY = Math.floor(Math.random()*(screen.height -101)+1);
         
         
         items.push(new Item(newX,newY,50,50));
@@ -113,14 +136,30 @@ function Frame() {
         collide(a,player)
         a.draw()
     })
+    lasers.map((a,i)=>{
+        if (i==4 && a != undefined) {
+            ctx.lineWidth = 1
+        } else if (a != undefined) {
+            isIntersection(a.getM(),a.getB())
+            ctx.lineWidth = 5;
+        }
+        if (a != undefined) {
+            a.draw()
+        }
+        
+    })
+    
+
+
+
 
     if (end) {
         player.img = playerDieImage;
-        player.y++
+        player.y+= 3
         document.querySelector("audio").pause()
         endtimer++
-        console.log(endtimer)
-        if (endtimer > 250) {
+        
+        if (endtimer > 170) {
             
             cancelAnimationFrame(animation)
             location.replace("replay.html")
@@ -138,13 +177,13 @@ function Frame() {
     
     
     if (useItem && itemTimer < itemTime) {
-        player.color = "cyan"
+        
         itemTimer++
     } else if(itemTimer >= itemTime) {
         itemTimer = 0;
         useItem = false;
         itemTime = 0;
-        player.color = 'green';
+        
     }
     
 }
@@ -180,3 +219,41 @@ function collide2(a,b) {
         score += 5;
     }
 }
+
+function isIntersection(m,b) {
+    // 직선과 직사각형의 상하좌우 경계
+    const lineTop = m * player.x + b;
+    const lineBottom = m * (player.x + player.w) + b;
+    const rectTop = player.y;
+    const rectBottom = player.y + player.w;
+  
+    // 교차하는 경우
+    if ((lineTop >= rectTop && lineTop <= rectBottom) || (lineBottom >= rectTop && lineBottom <= rectBottom)) {
+        if (!useItem) {
+            end = true;
+        }
+    }
+  
+    // 접하는 경우
+    const lineLeft = (player.y - b) / m;
+    const lineRight = ((player.y + player.w) - b) / m;
+    if ((lineLeft >= player.x && lineLeft <= player.x + player.w) ||
+        (lineRight >= player.x && lineRight <= player.x + player.w)) {
+            if (!useItem) {
+                end = true;
+            }
+            
+    }
+  
+    // 꼭지점에서 만나는 경우
+    const vertexX = player.x;
+    const vertexY = player.y;
+    if (b === vertexY && m * vertexX + b === vertexY) {
+        if (!useItem) {
+            end = true;
+        }
+    }
+  
+    // 교차하지 않는 경우
+    return;
+  }

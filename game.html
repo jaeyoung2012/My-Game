@@ -13,8 +13,12 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <p class="score"></p>
-    <audio src="music/bgm.mp3" autoplay loop></audio>
+    <div style="display: grid;grid-template-columns: 1fr 2fr;">
+        <p class="score" style="display: inline;"></p>
+        
+        <audio src="music/bgm.mp3" autoplay loop controls onloadstart="this.volume=0.2"></audio>
+    </div>
+    
     <canvas id="screen" ></canvas>
 
     <!--자바스크립트 파일들-->
