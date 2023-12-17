@@ -65,8 +65,11 @@ function Frame() {
     // 캔버스 
     ctx.clearRect(0,0,screen.width, screen.height);
     player.superMode = useItem;
-    if (!end) {
+    
+    if (!end && isMoving) {
+        
         switch (keyCode) {
+            
             case "KeyW":
                 if (player.y > 0) player.y -= player.speed;
                 break;
@@ -128,14 +131,17 @@ function Frame() {
         items.push(new Item(newX,newY,50,50));
     }
 
+    // 아이템 그리기, 충돌처리
     items.map((a)=>{
         collide2(a,player)
         a.draw()
     })
+    //적 그리기, 충돌처리
     ems.map((a)=>{
         collide(a,player)
         a.draw()
     })
+    // 레이저 그리기 , 충돌처리
     lasers.map((a,i)=>{
         if (i==4 && a != undefined) {
             ctx.lineWidth = 1
