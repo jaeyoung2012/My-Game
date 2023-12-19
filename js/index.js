@@ -19,7 +19,7 @@ let playerDieImage = new Image()
 playerDieImage.src = "img/playerDie.png";
 let end = false;
 let endtimer = 0;
-let lasers = [undefined,undefined, undefined,undefined,undefined];
+let lasers = [undefined,undefined, undefined,undefined,undefined,undefined,undefined, undefined];
 
 let player = {
     x : 100,
@@ -98,7 +98,7 @@ function Frame() {
         })
     
     }
-    if (timer % 50 == 0) {
+    if (timer % 20 == 0) {
         if (Math.floor(Math.random()*2) == 0) {
             let newY = Math.floor(Math.random()*(screen.width - 101)+1);
             let newY2 = Math.floor(Math.random()*(screen.width - 101)+1);
@@ -110,10 +110,13 @@ function Frame() {
             let newOne = new Laser(newX,0,newX2,screen.height)
             lasers.push(newOne)
         }
-        if (lasers.length == 6) {
+        
+        
+    }
+    if (timer % 10 == 0) {
+        if (lasers.length == 9) {
             lasers.shift()
         }
-        
     }
 
     if (timer % 60 == 0) {
@@ -143,7 +146,7 @@ function Frame() {
     })
     // 레이저 그리기 , 충돌처리
     lasers.map((a,i)=>{
-        if (i==4 && a != undefined) {
+        if (i==7 && a != undefined) {
             ctx.lineWidth = 1
         } else if (a != undefined) {
             isIntersection(a.getM(),a.getB())
