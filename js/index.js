@@ -12,14 +12,19 @@ let useItem = false;
 let itemTimer = 0;
 let itemTime = 0;
 let score = 0;
-let plusItemTime = 200;
+let plusItemTime = 250;
 let playerImg = new Image();
 playerImg.src = "img/player.png"
 let playerDieImage = new Image()
 playerDieImage.src = "img/playerDie.png";
 let end = false;
 let endtimer = 0;
-let lasers = [undefined,undefined, undefined,undefined,undefined,undefined,undefined, undefined];
+let maxLasers = 4
+let lasers = [];
+
+for (let i = 0;i>maxLasers;i++) {
+    lasers.push(undefined)
+}
 
 let player = {
     x : 100,
@@ -51,7 +56,7 @@ function Frame() {
         
         document.querySelector(".score").innerText = `Score : ${score}`
     }
-    if (timer % 35 == 0 && !end) {
+    if (timer % 20 == 0 && !end) {
         score++
     }
     if (score % 50 === 0) {
@@ -98,7 +103,7 @@ function Frame() {
         })
     
     }
-    if (timer % 20 == 0) {
+    if (timer % 45 == 0) {
         if (Math.floor(Math.random()*2) == 0) {
             let newY = Math.floor(Math.random()*(screen.width - 101)+1);
             let newY2 = Math.floor(Math.random()*(screen.width - 101)+1);
@@ -113,8 +118,8 @@ function Frame() {
         
         
     }
-    if (timer % 10 == 0) {
-        if (lasers.length == 9) {
+    if (timer % 2 == 0) {
+        if (lasers.length >= maxLasers) {
             lasers.shift()
         }
     }
@@ -145,8 +150,8 @@ function Frame() {
         a.draw()
     })
     // 레이저 그리기 , 충돌처리
-    lasers.map((a,i)=>{
-        if (i==7 && a != undefined) {
+    lasers.map((a,i,o)=>{
+        if (i == o.length - 1  && a != undefined) {
             ctx.lineWidth = 1
         } else if (a != undefined) {
             isIntersection(a.getM(),a.getB())
